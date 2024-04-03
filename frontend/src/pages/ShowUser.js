@@ -35,7 +35,6 @@ const UserPage = () => {
   const [userFavorites, setUserFavorites] = useState([]);
   const [avatars, setAvatars] = useState([]);
   const [date, setDate] = useState("");
-  const [render, setRender] = useState(false);
   const [loading, setLoading] = useState({
     user: true,
     languages: true,
@@ -160,11 +159,7 @@ const UserPage = () => {
       handleLoading("languages", false);
       // remplissage conditionnel tu tableau d'etat checked pour la liste des langages
       resLanguages.map((language) => {
-        if (
-          updateUser.languages.find(
-            (userLanguage) => userLanguage === language.id
-          )
-        ) {
+        if (updateUser.languages.find((userLanguage) => userLanguage === language.id)) {
           setCheckedState((checkedState) => [...checkedState, true]);
         } else {
           setCheckedState((checkedState) => [...checkedState, false]);
@@ -230,8 +225,8 @@ const UserPage = () => {
             message.success(`Déconnexion réussie`);
             
             dispatch(removeUser(res.data));
+            navigate("/");
         }
-        navigate("/");
     }
   };
 
@@ -252,7 +247,7 @@ const UserPage = () => {
 
   useEffect(() => {
     getData();
-  }, [id, modals.avatars, modals.params, modals.contacts, render]);
+  }, [id, modals.avatars, modals.params, modals.contacts]);
 
   //===========
   //LISTS RENDERS

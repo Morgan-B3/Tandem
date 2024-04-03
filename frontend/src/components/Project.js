@@ -140,7 +140,7 @@ const Project = ({user, id }) => {
         <div className='project-body'>
           <div>
             <div>
-              <h3 className='project-title' onClick={() => navigate(`/project/${id}`)}>{project.title}</h3>
+              <h3 className='project-title' onClick={() => navigate(`/project/${id}`)}>{project.title?.length>35?`${project.title.substring(0, 35)}...`:project.title}</h3>
               <div className='flex'>
                   {like(project.popularity)}
                 <div className='project-creator'>

@@ -122,12 +122,16 @@ const ShowProject = () => {
      * Rejoindre/quitte un projet
      */
     const joinProject = async () => {
-        await axios.put(`/api/project/${id}/join`, { headers: { "Authorization": `Bearer ${token}` } })
-        getProject();
-        if (project.collaboratorsList.find(collaborator => collaborator.id === loggedUser?.id)) {
-            message.warning("Vous avez quitté le projet :(")
+        if(loggedUser){
+            await axios.put(`/api/project/${id}/join`, { headers: { "Authorization": `Bearer ${token}` } })
+            getProject();
+            if (project.collaboratorsList.find(collaborator => collaborator.id === loggedUser?.id)) {
+                message.warning("Vous avez quitté le projet :(")
+            } else {
+                message.success("Vous avez rejoint le projet !")
+            }
         } else {
-            message.success("Vous avez rejoint le projet !")
+            handleModals("connexion", true)
         }
     }
 
@@ -145,11 +149,6 @@ const ShowProject = () => {
         setCheckedState(updatedCheckedState);
     };
 
-
-    const getData = async () => {
-        const resProjects = await axios.get(`/api/projects/${id}`);
-        setProject(resProjects.data.projects);
-    };
 
     /**
      * Met à jour les données du projet
@@ -198,15 +197,20 @@ const ShowProject = () => {
      * Ajoute un commentaire au projet
      */
     const postNewComment = async (e) => {
-        e.preventDefault();
-        const res = await axios.post(`/api/comment/${id}/store`, { comment: postComment.comment }, { headers: { "Authorization": `Bearer ${token}` } });
-        if (res.data.status === 200) {
-            setPostComment({ comment: "" })
-            message.success("Commentaire ajouté !")
+        if(loggedUser){
+
+            e.preventDefault();
+            const res = await axios.post(`/api/comment/${id}/store`, { comment: postComment.comment }, { headers: { "Authorization": `Bearer ${token}` } });
+            if (res.data.status === 200) {
+                setPostComment({ comment: "" })
+                message.success("Commentaire ajouté !")
+            } else {
+                setErrors(res.data.errors);
+            }
+            getProject();
         } else {
-            setErrors(res.data.errors);
+            handleModals("connexion",true)
         }
-        getProject();
 
     }
 
@@ -275,16 +279,14 @@ const ShowProject = () => {
     }
 
     const stepTwo = () => {
-        if (project.user_id === loggedUser?.id) {
-            if (project.status === "created") {
-                return (
-                    <button onClick={() => handleModals("steps", true)} name='ongoing' className='btn-green'><PiPlantLight size={40} className='stepsIcons' />Démarrer le projet</button>
-                )
-            } else {
-                return (
-                    <button name='ongoing' className='btn-green active'><PiPlantLight size={40} className='stepsIcons' />Projet démarré</button>
-                )
-            }
+        if (project.status === "created") {
+            return (
+                <button onClick={() => handleModals("steps", true)} name='ongoing' className='btn-green'><PiPlantLight size={40} className='stepsIcons' />Démarrer le projet</button>
+            )
+        } else {
+            return (
+                <button name='ongoing' className='btn-green active'><PiPlantLight size={40} className='stepsIcons' />Projet démarré</button>
+            )
         }
     }
 
@@ -414,7 +416,7 @@ const ShowProject = () => {
     ////////////
 
     /**
-     * Modale fu formulaire de modifiaction
+     * Modale du formulaire de modifiaction
      */
     const updateModal = () => {
 
