@@ -518,7 +518,7 @@ const ShowProject = () => {
 
                         <p className='projectDescription'>{project.description}</p>
 
-                        {project.user_id === loggedUser?.id ?
+                        {!loading && project.user_id === loggedUser?.id ?
                             <Fragment>
 
                                 <div className='btn-orange-position'>
