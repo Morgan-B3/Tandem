@@ -1,6 +1,7 @@
 import axios from '../api/axios';
 import React, { Fragment, useEffect, useState } from 'react'
-import { Collapse, Modal, Popover, Progress, Skeleton, Steps, message } from "antd"
+import { Collapse, Modal, Popover, Progress, Skeleton, Steps, message, Upload, Button } from "antd"
+import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom'
 import Layout from '../components/Layout';
 
@@ -422,37 +423,45 @@ const ShowProject = () => {
 
         return(
             <Modal className='updateModal' title="Modifier" open={modals.update} onCancel={()=>handleModals("update", false)} footer={null} centered >
-            <form onSubmit={(e)=>update(e)}>
-                <div className='flex'>
-                    <div className='flex-col'>
+                <form onSubmit={(e)=>update(e)}>
+                    <div className='flex'>
+                        <div className='flex-col'>
 
-                        <label htmlFor='title'>Titre :</label>
-                        <input type='text' id='title' name='title' value={updateProject.title} onChange={(e) => handleUpdate(e)} />
-                        <strong>{errors.title}</strong>
+                            <label htmlFor='title'>Titre :</label>
+                            <input type='text' id='title' name='title' value={updateProject.title} onChange={(e) => handleUpdate(e)} />
+                            <strong>{errors.title}</strong>
+                        </div>
+
+                        <div className='flex-col'>
+                            <label>Nombre de collaborateurs max :</label>
+                            <select id="collaborators_max" name="collaborators_max" min="1" max="20" value={updateProject?.collaborators_max || ""} onChange={(e) => handleUpdate(e)} required>
+                                {participants}
+                            </select>
+                            <strong>{errors.collaborators_max}</strong>
+                        </div>
                     </div>
 
                     <div className='flex-col'>
-                        <label>Nombre de collaborateurs max :</label>
-                        <select id="collaborators_max" name="collaborators_max" min="1" max="20" value={updateProject?.collaborators_max || ""} onChange={(e) => handleUpdate(e)} required>
-                            {participants}
-                        </select>
-                        <strong>{errors.collaborators_max}</strong>
+                        <label htmlFor='description'>Description :</label>
+                        <textarea type='text' id='description' name='description' value={updateProject.description} onChange={(e) => handleUpdate(e)} ></textarea>
+                        <strong>{errors.description}</strong>
                     </div>
-                </div>
 
-                <div className='flex-col'>
-                    <label htmlFor='description'>Description :</label>
-                    <textarea type='text' id='description' name='description' value={updateProject.description} onChange={(e) => handleUpdate(e)} ></textarea>
-                    <strong>{errors.description}</strong>
-                </div>
+                    <Collapse onChange={() => { getLanguages(); }} items={[
+                        {
+                            label: "Langages",
+                            children: (
+                                <div className="updateLanguagesList">{allLanguagesList}</div>
+                            )
+                        }]} />
 
-                <Collapse onChange={() => { getLanguages(); }} items={[
-                    {
-                        label: "Langages",
-                        children: (
-                            <div className="updateLanguagesList">{allLanguagesList}</div>
-                        )
-                    }]} />
+                    <Upload
+                        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                        listType="picture"
+                        defaultFileList={[project.image]}
+                        >
+                        <Button icon={<UploadOutlined />}>Upload</Button>
+                    </Upload>
 
                     <button type="submit" className="btn-green center">Valider</button>
                 </form>
@@ -502,7 +511,7 @@ const ShowProject = () => {
             <div className='projectDetail'>
                 <div className='projectDetailPosition'>
                     <div className='imagePosition'>
-                        <img className='imageSize' src={project.image} alt="" />
+                        <img className='imageSize' src={`${process.env.REACT_APP_API_URL}/images/projects/${project.image}`} alt="" />
                     </div>
 
                     <div className='descriptionPosition'>

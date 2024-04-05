@@ -88,6 +88,13 @@ const CreateProject = () => {
         })
     };
 
+    const handleImage = (e) =>{
+        setProject({
+            ...project,
+            image:e.target.files[0]
+        })
+    }
+
     // Ajout / suppression d'un langage selon son état checked
     const handleOnChange = (languageId) => {
         // Mise à jour de la valeur du checked du langage sélectionné (true devient false et vice versa)
@@ -140,7 +147,7 @@ const CreateProject = () => {
         e.preventDefault();
 
         // Appel à l'API
-        const res = await axios.post(`/api/project/store`, project, { headers: { "Content-Type": "application/json" , "Authorization":`Bearer ${token}`} });
+        const res = await axios.post(`/api/project/store`, project, { headers: { "Content-Type": "multipart/form-data" , "Authorization":`Bearer ${token}`} });
         
         if (res.data.status === 200) {
             swal({
@@ -180,7 +187,7 @@ const CreateProject = () => {
                     <div className='flex-col'>
                         <label htmlFor='title'>Nom du projet :</label>
                         <input type='text' id='title' name='title' placeholder='Mon super projet' value={project.title} onChange={(e)=>handleInput(e)} autoFocus required/>
-                        <b>{errors.title}</b>
+                        <strong>{errors.title}</strong>
                     </div>
 
                     <div className='flex' >
@@ -190,7 +197,7 @@ const CreateProject = () => {
                             {participants}
                         </select>
                         {/* <input type="number" id="collaborators_max" name="collaborators_max" min="1" max="20" value={project.collaborators_max} onChange={(e) => handleInput(e)} required /> */}
-                        <b>{errors.collaborators_max}</b>
+                        <strong>{errors.collaborators_max}</strong>
                     </div>
                 </div>
 
@@ -198,21 +205,20 @@ const CreateProject = () => {
                     <label htmlFor="description">Description du projet :</label>
                     <textarea type="text" id="description" name="description" minLength="10" maxLength="1000" placeholder='Une jolie description' size="10"
                         value={project.description} onChange={(e) => handleInput(e)} required />
-                    <b>{errors.description}</b>
+                    <strong>{errors.description}</strong>
                 </div>
 
 
                 <div className='form-group'>
                     <div>
                         <label htmlFor="image">Image d'illustration :</label>
-                        <input type="file" id="image" name="image" accept="image/png, image/jpeg" value={project.image} onChange={(e) => handleInput(e)}/>
-
+                        <input type="file" id="image" name="image" accept="image/png, image/jpeg" onChange={(e) => handleImage(e)}/>
+                        <strong>{errors.image}</strong>
                     </div>
                     <div className='flex'>
                         <label htmlFor="languages">Langages envisagés:</label>
-                        {/* <legend name="languages" id="languages" value={project.languages} onChange={handleInput} required></legend> */}
                         <button type='button' className='btn-green' name='languages' onClick={()=>showModal1()}>Selectionner</button>
-                        <b>{errors.languages}</b>
+                        <strong>{errors.languages}</strong>
                         
                         <Modal title="Choisir des langages" open={isModal1Open} width="fit-content" onCancel={()=> handleCancel1()} footer={null} centered>
                             <div className='languagesList-1'>

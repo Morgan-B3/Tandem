@@ -165,7 +165,8 @@ class ProjectController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => "required|unique:projects,title|max:50|min:3",
             'description' => "required|max:1000|min:3",
-            'collaborators_max' => "required|numeric"
+            'collaborators_max' => "required|numeric",
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         if ($validator->fails()) {
@@ -184,9 +185,12 @@ class ProjectController extends Controller
             $project->status = 'created';
             $project->open = true;
             $project->popularity = 0;
-            $project->image = "https://picsum.photos/id/".random_int(9,600)."/800/450";
-            // $project->image = "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-
+            //$project->image = "https://picsum.photos/id/".random_int(9,600)."/800/450";
+            if ($request->hasFile('image')){
+                $imageName = $project->title.'_'.$project->user_id.'.'.$request->image->extension();
+                $request->image->move(public_path('images/projects'),$imageName);
+                $project->image = $imageName;
+            }
             $project->save();
 
             $project->collaborators()->attach(auth()->user()->id);
