@@ -63,7 +63,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Gestion des projets
     Route::post('/project/store', [ProjectController::class, "store"]);
-    Route::put('/project/{id}/update', [ProjectController::class, "update"]);
+    Route::post('/project/{id}/update', [ProjectController::class, "update"]);
     Route::delete('/project/{id}/delete', [ProjectController::class, "delete"]);
     Route::put('/project/{id}/step', [ProjectController::class, "nextStep"]);
     Route::put('/project/{id}/favorite', [ProjectController::class, "favorite"]);

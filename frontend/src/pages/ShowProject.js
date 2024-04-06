@@ -45,6 +45,13 @@ const ShowProject = () => {
         });
     }
 
+    const handleImage = (e) =>{
+        setUpdateProject({
+            ...updateProject,
+            image:e.target.files[0]
+        })
+    }
+
     /**
      * Gestion des skeleton antdesign
      */
@@ -156,7 +163,8 @@ const ShowProject = () => {
      */
     const update = async (e) => {
         e.preventDefault();
-        const res = await axios.put(`/api/project/${id}/update`, updateProject, { headers: { "Authorization": `Bearer ${token}` } });
+        const res = await axios.post(`/api/project/${id}/update`, updateProject, { headers: {"Content-Type": "multipart/form-data" ,"Authorization": `Bearer ${token}` } });
+        console.log(res.data.project);
 
         if (res.data.status === 200) {
 
@@ -455,13 +463,22 @@ const ShowProject = () => {
                             )
                         }]} />
 
-                    <Upload
+                    <div>
+                        <label htmlFor="image">Image d'illustration :</label>
+                        <input type="file" id="image" name="image" accept="image/png, image/jpeg" onChange={(e) => handleImage(e)}/>
+                        <strong>{errors.image}</strong>
+                    </div>
+
+                    {/* <Upload
                         action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
                         listType="picture"
-                        defaultFileList={[project.image]}
+                        defaultFileList={[ {
+                        name: project.image,
+                        status: 'done',
+                        url:`${process.env.REACT_APP_API_URL}/images/projects/${project.image}`}]}
                         >
                         <Button icon={<UploadOutlined />}>Upload</Button>
-                    </Upload>
+                    </Upload> */}
 
                     <button type="submit" className="btn-green center">Valider</button>
                 </form>

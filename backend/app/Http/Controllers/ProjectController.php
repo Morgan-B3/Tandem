@@ -7,7 +7,7 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\File;
 
 class ProjectController extends Controller
 {
@@ -214,26 +214,34 @@ class ProjectController extends Controller
             $validator = Validator::make($request->all(), [
                 'title' => "max:50|min:3|unique:projects,title," . $project->id,
                 'description' => "max:1000|min:3",
-                'collaborators_max' => "numeric|max:10|min:".$project->collaborators
+                'collaborators_max' => "numeric|max:10|min:".$project->collaborators,
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
             ]);
             if ($validator->fails()) {
                 return response()->json([
                     'errors' => $validator->messages(),
-                    "message" => "Erreur dans le formulaire."
+                    "message" => "Erreur dans le formulaire.",
+                    "project" => $request->all()
                 ]);
             } else {
                 $project->title = $request->input("title");
                 $project->description = $request->input("description");
                 $project->collaborators_max = $request->input("collaborators_max");
                 $project->languages()->sync( $request->input("languages"));
-
+                if ($request->hasFile('image')){
+                    File::delete("images/projects/".$project->image);
+                    $imageName = $project->title.'_'.$project->user_id.'.'.$request->image->extension();
+                    $request->image->move(public_path('images/projects'),$imageName);
+                    $project->image = $imageName;
+                }
                 $project->save();
 
                 $project->languagesList = $project->languages()->get();
 
                 return response()->json([
                     'status' => 200,
-                    "message" => "Le projet a été ajouté."
+                    "message" => "Le projet a été modifié.",
+                    "project" => $request->all()
                 ]);
             }
         } else {
