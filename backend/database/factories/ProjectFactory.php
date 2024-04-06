@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 use Nette\Utils\Random;
 
 /**
@@ -24,19 +25,31 @@ class ProjectFactory extends Factory
             $isOpen = false;
         }
         $statuses1 = ['created', 'ongoing'];
-        $rand_status1 = array_rand($statuses1);
         $statuses2 = ['ongoing', 'completed'];
-        $rand_status2 = array_rand($statuses2);
         if ($isOpen){
-            $status = $statuses1[$rand_status1];
+            $status = $statuses1[random_int(0,1)];
         } else {
-            $status = $statuses2[$rand_status2];
+            $status = $statuses2[random_int(0,1)];
         }
+
+        // Récupère le contenu du dossier avatar sous forme de tableau
+        $projectImagesFolder = scandir('public/images/projects/default');   
+                
+        $projectImages = [];
+
+        // parcourt le tableau en évitant les 2 premiers éléments (artefacts)
+        for($i=2; $i<count($projectImagesFolder); $i++){
+            // récupère les informations du fichier
+            $file = pathinfo($projectImagesFolder[$i]);
+            array_push($projectImages, $file["basename"]);
+        }  
+
         return [
             'title' => fake()->sentence(),
             'description' => fake()->text(),
             'user_id' => fake()->numberBetween(1,10),
-            'image' => "https://picsum.photos/id/".random_int(9,600)."/800/450",
+            // 'image' => "https://picsum.photos/id/".random_int(9,600)."/800/450",
+            "image" => $projectImages[random_int(4,count($projectImages)-1)],
             'collaborators' => $collaborators,
             'collaborators_max' => $collaborators_max,
             'open' => $isOpen,

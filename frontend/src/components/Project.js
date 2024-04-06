@@ -134,7 +134,7 @@ const Project = ({user, id }) => {
       <div className='container'>
 
         <div className='project-img'>
-          <img onClick={() => navigate(`/project/${id}`)} src={`${process.env.REACT_APP_API_URL}/images/projects/${project.image}`} alt=""/>
+          <img onClick={() => navigate(`/project/${id}`)} src={`${process.env.REACT_APP_API_URL}/images/projects/${project.image?.includes("tandem_default_") ? "default/" : ""}`+project.image} alt=""/>
         </div>
 
         <div className='project-body'>

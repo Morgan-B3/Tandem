@@ -528,7 +528,7 @@ const ShowProject = () => {
             <div className='projectDetail'>
                 <div className='projectDetailPosition'>
                     <div className='imagePosition'>
-                        <img className='imageSize' src={`${process.env.REACT_APP_API_URL}/images/projects/${project.image}`} alt="" />
+                        <img className='imageSize' src={`${process.env.REACT_APP_API_URL}/images/projects/${project.image?.includes("tandem_default_") ? "default/" : ""}`+project.image} alt="" />
                     </div>
 
                     <div className='descriptionPosition'>
