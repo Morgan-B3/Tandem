@@ -152,7 +152,7 @@ const UserPage = () => {
    */
   const getLanguages = async () => {
     if (loading.languages) {
-      const resLanguages = await axios("/api/languages").then(
+      const resLanguages = await axios.get("/api/languages").then(
         (res) => res.data.languages
       );
       setAllLanguages(resLanguages);
@@ -274,7 +274,7 @@ const UserPage = () => {
           name="avatar_id"
         />
         <img
-          src={`http://localhost:8000/images/avatars/${avatar.url}`}
+          src={`${process.env.REACT_APP_API_URL}/images/avatars/${avatar.url}`}
           alt={avatar.url}
         />
       </div>
@@ -601,7 +601,7 @@ const UserPage = () => {
                 <Skeleton.Avatar active size={100} />
               ) : (
                 <Fragment>
-                  <img src={`http://localhost:8000/images/avatars/${user.avatar}`} alt="" />
+                  <img src={`${process.env.REACT_APP_API_URL}/images/avatars/${user.avatar}`} alt="" />
                   {loggedUser.id === user.id ? (
                     <p className="hidden">Changer d'avatar</p>
                   ) : (

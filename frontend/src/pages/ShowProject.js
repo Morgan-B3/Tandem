@@ -178,7 +178,7 @@ const ShowProject = () => {
      * Change le statut du projet
      */
     const changeStatus = async (statusType) => {
-        await axios.put(`api/project/${id}/step`, { status: statusType }, { headers: { "Authorization": `Bearer ${token}` } })
+        await axios.put(`/api/project/${id}/step`, { status: statusType }, { headers: { "Authorization": `Bearer ${token}` } })
         setStatus(project.status);
         getProject();
         message.success("Le projet a été mis à jour !")

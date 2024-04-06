@@ -8,7 +8,7 @@ const Comment = ({user, name, date, content}) => {
   return (
     <div className='commentItem'>
         <div className='commentImg' onClick={()=>navigate(`/user/${user.id}`)}>
-            <img src={`http://localhost:8000/images/avatars/${user.avatar.url}`}/>
+            <img src={`${process.env.REACT_APP_API_URL}/images/avatars/${user.avatar.url}`}/>
         </div>
         <div className='content'>
             <div className='userInfo'>
