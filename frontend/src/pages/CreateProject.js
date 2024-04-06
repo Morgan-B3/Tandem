@@ -27,7 +27,6 @@ const CreateProject = () => {
         description: '',
         languages: [],
         user_id: user? user.id : null,
-        image: '',
     });
 
     // Liste de tous les langages dans la BDD, rempli via appel API

@@ -185,11 +185,22 @@ class ProjectController extends Controller
             $project->status = 'created';
             $project->open = true;
             $project->popularity = 0;
-            //$project->image = "https://picsum.photos/id/".random_int(9,600)."/800/450";
             if ($request->hasFile('image')){
                 $imageName = $project->title.'_'.$project->user_id.'.'.$request->image->extension();
                 $request->image->move(public_path('images/projects'),$imageName);
                 $project->image = $imageName;
+            } else {
+                $projectImagesFolder = scandir('../public/images/projects/default');   
+                        
+                $projectImages = [];
+
+                // parcourt le tableau en évitant les 2 premiers éléments (artefacts)
+                for($i=2; $i<count($projectImagesFolder); $i++){
+                    // récupère les informations du fichier
+                    $file = pathinfo($projectImagesFolder[$i]);
+                    array_push($projectImages, $file["basename"]);
+                } 
+                $project->image = $projectImages[random_int(4,count($projectImages)-1)];
             }
             $project->save();
 
