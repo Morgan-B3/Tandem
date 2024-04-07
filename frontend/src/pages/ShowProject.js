@@ -64,6 +64,7 @@ const ShowProject = () => {
         steps: false,
         update: false,
         connexion: false,
+        delete: false
     })
 
     const handleModals = (name, status) => {
@@ -86,8 +87,8 @@ const ShowProject = () => {
             const languagesID = res.data.project.languages.map((language) => language.id);
             
             setUpdateProject({
-                title: res.data.project.title,
-                description: res.data.project.description,
+                title: res.data.project.title || "",
+                description: res.data.project.description || "",
                 languages: languagesID,
                 collaborators_max: res.data.project.collaborators_max,
             });
@@ -399,19 +400,19 @@ const ShowProject = () => {
         }
     }
 
-  // Affichage de l'icone like selon si le projet est liké par l'utilisateur
-  const like = () => {
-      // if (user?.likes.find(like => like.project_id === id)){
-      if (project.likes?.find(like => like.user_id === loggedUser?.id)){
-        return (
-            <button type='button' className='btn-red-white likes full' onClick={()=>handleAction("like")}><FaHeart className='action-icon' size={25} />{project.popularity}</button>
-        )
-      } else {
-        return (
-            <button type='button' className='btn-red likes' onClick={()=>handleAction("like")}><FaRegHeart className='action-icon' size={25} />{project.popularity}</button>
-        )
-      }
-  }
+    // Affichage de l'icone like selon si le projet est liké par l'utilisateur
+    const like = () => {
+        // if (user?.likes.find(like => like.project_id === id)){
+        if (project.likes?.find(like => like.user_id === loggedUser?.id)){
+            return (
+                <button type='button' className='btn-red-white likes full' onClick={()=>handleAction("like")}><FaHeart className='action-icon' size={25} />{project.popularity}</button>
+            )
+        } else {
+            return (
+                <button type='button' className='btn-red likes' onClick={()=>handleAction("like")}><FaRegHeart className='action-icon' size={25} />{project.popularity}</button>
+            )
+        }
+    }
 
 
     // Ajoute/Enlève un like/favori si l'utilisateur est connecté, sinon ouvre une modale
@@ -424,6 +425,20 @@ const ShowProject = () => {
         getProject()
     }
 
+    // Supprime le projet
+    const handleDeleteProject = async()=>{
+        if(!loading && project.user_id === loggedUser?.id ){
+            const res = await axios.delete(`/api/project/${project.id}/delete`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (res.data.status === 200) {
+                message.success("Projet supprimé")
+                navigate("/");
+            }
+          
+        }
+      }
+
     ////////////
     //MODALS
     ////////////
@@ -435,7 +450,7 @@ const ShowProject = () => {
 
         return(
             <Modal className='updateModal' title="Modifier" open={modals.update} onCancel={()=>handleModals("update", false)} footer={null} centered >
-                <form onSubmit={(e)=>update(e)}>
+                <form onSubmit={(e)=>update(e)} className='params'>
                     <div className='flex'>
                         <div className='flex-col'>
 
@@ -458,31 +473,25 @@ const ShowProject = () => {
                         <textarea type='text' id='description' name='description' value={updateProject.description} onChange={(e) => handleUpdate(e)} ></textarea>
                         <strong>{errors.description}</strong>
                     </div>
-
-                    <Collapse onChange={() => { getLanguages(); }} items={[
+                    
+                    <div>
+                        <label>Langages :</label>
+                        <Collapse onChange={() => { getLanguages(); }} items={[
                         {
-                            label: "Langages",
+                            label: "Liste des langages",
                             children: (
                                 <div className="updateLanguagesList">{allLanguagesList}</div>
                             )
                         }]} />
+                    </div>
 
-                    <div>
+                    <div className='flex-col'>
                         <label htmlFor="image">Image d'illustration :</label>
                         <input type="file" id="image" name="image" accept="image/png, image/jpeg" onChange={(e) => handleImage(e)}/>
                         <strong>{errors.image}</strong>
                     </div>
 
-                    {/* <Upload
-                        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-                        listType="picture"
-                        defaultFileList={[ {
-                        name: project.image,
-                        status: 'done',
-                        url:`${process.env.REACT_APP_API_URL}/images/projects/${project.image}`}]}
-                        >
-                        <Button icon={<UploadOutlined />}>Upload</Button>
-                    </Upload> */}
+                    <p className="delete" onClick={() => handleModals("delete", true)} aria-label="Supprimer le projet" title="Supprimer le projet">( ! ) Supprimer le projet</p>
 
                     <button type="submit" className="btn-green center">Valider</button>
                 </form>
@@ -519,6 +528,22 @@ const ShowProject = () => {
         </Modal>
     }
 
+    /**
+     * Modale de suppression projet
+     */
+    const deleteModal = () => {
+        return(
+            <Modal title="Suppression de projet" open={modals.delete} onCancel={()=>handleModals("delete",false)} footer={null} centered >
+              <h3>Voulez-vous supprimer votre projet ?</h3>
+              <p>Cette action est définitive et irréversible.<br/>(Le projet sera supprimé, y compris pour vos collaborateurs)</p>
+              <div className='center flex'>
+              <button type='button' aria-label="Oui" title="Oui" onClick={() => handleDeleteProject()} className='btn-green' >Oui</button>
+              <button type='button' aria-label="Non" title="Non" onClick={() => handleModals("delete",false)} className='btn-red' >Non</button>
+              </div>
+            </Modal>
+        )
+    }
+
 
     return (
         <Layout>
@@ -527,6 +552,7 @@ const ShowProject = () => {
             {updateModal()}
             {stepsModal()}
             {connexionModal()}
+            {deleteModal()}
 
 
             <div className='projectDetail'>
