@@ -605,7 +605,7 @@ const UserPage = () => {
     return(
       <Modal title="Suppression de compte" open={modals.delete} onCancel={()=>handleModals("delete",false)} footer={null} centered >
         <h3>Voulez-vous supprimer votre compte ?</h3>
-        <p>Cette action est définitive et irréversible</p>
+        <p>Cette action est définitive et irréversible.<br/>(Tous vos projets seront supprimés, y compris pour vos collaborateurs)</p>
         <div className='center flex'>
         <button type='button' aria-label="Oui" title="Oui" onClick={() => handleDeleteAccount()} className='btn-green' >Oui</button>
         <button type='button' aria-label="Non" title="Non" onClick={() => handleModals("delete",false)} className='btn-red' >Non</button>
