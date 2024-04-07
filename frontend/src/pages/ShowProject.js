@@ -79,17 +79,21 @@ const ShowProject = () => {
      */
     const getProject = async () => {
         const res = await axios.get(`/api/project/${id}`);
-        document.title = `${res.data.project.title}`;
-        setProject(res.data.project);
-
-        const languagesID = res.data.project.languages.map((language) => language.id);
-
-        setUpdateProject({
-            title: res.data.project.title,
-            description: res.data.project.description,
-            languages: languagesID,
-            collaborators_max: res.data.project.collaborators_max,
-        });
+        if(res.data.status === 200){
+            document.title = `${res.data.project.title}`;
+            setProject(res.data.project);
+            
+            const languagesID = res.data.project.languages.map((language) => language.id);
+            
+            setUpdateProject({
+                title: res.data.project.title,
+                description: res.data.project.description,
+                languages: languagesID,
+                collaborators_max: res.data.project.collaborators_max,
+            });
+        } else if (res.data.status === 404){
+            navigate('/404')
+        }
 
         setLoading(false);
     };

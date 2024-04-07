@@ -115,35 +115,39 @@ const UserPage = () => {
    * Récupère les données de l'utilisateur, ses projets, ses langages et ses favoris
    */
   const getData = async () => {
-    const resUser = await axios
-      .get(`/api/user/${id}`)
-      .then((res) => res.data.user);
-    document.title = `${resUser.name}`;
-    setUser(resUser);
-    handleLoading("user", false);
-
-    const resProjects = await axios
+    const res = await axios.get(`/api/user/${id}`);
+    console.log(res.data);
+    if(res.data.status === 200){
+      const resUser = res.data.user
+      document.title = `${resUser.name}`;
+      setUser(resUser);
+      handleLoading("user", false);
+      
+      const resProjects = await axios
       .get(`/api/projects/${id}`)
       .then((res) => res.data.projects);
-    setUserProjects(resProjects);
-
-    const languagesID = resUser.languagesList.map((language) => language.id);
-
-    setUpdateUser({
-      name: resUser.name,
-      description: resUser.description,
-      languages: languagesID,
-      github: resUser.github,
-      discord: resUser.discord,
-      avatar_id: resUser.avatar_id,
-    });
-    setDate(resUser.created_at);
-    if(loggedUser?.id == id ){
+      setUserProjects(resProjects);
+    
+      const languagesID = resUser.languagesList.map((language) => language.id);
+    
+      setUpdateUser({
+        name: resUser.name || "",
+        description: resUser.description || "",
+        languages: languagesID,
+        github: resUser.github || "",
+        discord: resUser.discord || "",
+        avatar_id: resUser.avatar_id,
+      });
+      setDate(resUser.created_at);
+      if(loggedUser?.id == id ){
         const resFavorites = await axios.get(`/api/projects/favorites/${id}`, {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         });
         setUserFavorites(resFavorites.data.projects);
+      }
+    } else {
+      navigate('/404')
     }
   };
 
@@ -262,7 +266,7 @@ const UserPage = () => {
             navigate("/");
         }
       }
-  }
+    }
   }
 
   useEffect(() => {
@@ -603,7 +607,7 @@ const UserPage = () => {
         <h3>Voulez-vous supprimer votre compte ?</h3>
         <p>Cette action est définitive et irréversible</p>
         <div className='center flex'>
-        <button type='button' aria-label="Oui" title="Oui" onClick={() => navigate('/')} className='btn-green' >Oui</button>
+        <button type='button' aria-label="Oui" title="Oui" onClick={() => handleDeleteAccount()} className='btn-green' >Oui</button>
         <button type='button' aria-label="Non" title="Non" onClick={() => handleModals("delete",false)} className='btn-red' >Non</button>
         </div>
       </Modal>

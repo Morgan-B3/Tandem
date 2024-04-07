@@ -24,7 +24,13 @@ class UserController extends Controller
      * Affiche un utilisateur
      */
     function show($id){
-        $user = User::findOrFail($id);
+        try{
+            $user = User::findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                "status" => 404
+            ]);
+        }
         $user->languagesList = $user->languages()->get();
         $user->avatar = $user->avatar()->first()->url;
         $user->contacts = $user->contacts()->get();

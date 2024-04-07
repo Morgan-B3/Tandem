@@ -91,8 +91,14 @@ class ProjectController extends Controller
      */
     function show($id)
     {
-        $project = Project::findOrFail($id);
-
+        try{
+            $project = Project::findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                "status" => 404
+            ]);
+        }
+      
         //Attribution des collaborateurs et leur avatar
         $collaborators = $project->collaborators()->get();
         foreach ($collaborators as $collaborator) {
