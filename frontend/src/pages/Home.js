@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Carousel from "../components/Carousel";
 //Utilisation d'axios pour faire des appels à l'API
 import axios from "../api/axios.js";
-import { Skeleton } from "antd";
+import { Skeleton, Pagination } from "antd";
 import SearchsBar from "../components/SearchsBar.js";
 import { useSelector } from "react-redux";
 import CountUp from "react-countup";
@@ -175,7 +175,10 @@ const Home = () => {
                       />
                     ))
                 ) : (
-                  projectsList
+                  <>
+                    {projectsList}
+                    <Pagination defaultCurrent={1} total={projectsList.length/10} pageSize={10}/>
+                  </>
                 )
               ) : (
                 filteredProjects.length > 0 ? (

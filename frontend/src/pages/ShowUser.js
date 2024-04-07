@@ -46,6 +46,7 @@ const UserPage = () => {
     avatars: false,
     favorites: false,
     connexion: false,
+    delete: false,
   });
   const [checkedState, setCheckedState] = useState([]);
 
@@ -138,7 +139,6 @@ const UserPage = () => {
     });
     setDate(resUser.created_at);
     if(loggedUser?.id == id ){
-        console.log("test");
         const resFavorites = await axios.get(`/api/projects/favorites/${id}`, {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -226,6 +226,8 @@ const UserPage = () => {
             
             dispatch(removeUser(res.data));
             navigate("/");
+        } else {
+          message.error("Erreur de déconnexion")
         }
     }
   };
@@ -243,6 +245,24 @@ const UserPage = () => {
     } else {
         handleModals("connexion",true);
     }
+  }
+
+  const handleDeleteAccount = async()=>{
+    if(loggedUser?.id == id ){
+      const res1 = await axios.post(`/api/logout/${user.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res1.data.status === 200) {
+        dispatch(removeUser(res1.data));
+        const res2 = await axios.delete(`/api/user/${user.id}/delete`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res2.data.status === 200) {
+            message.success("Compte supprimé")
+            navigate("/");
+        }
+      }
+  }
   }
 
   useEffect(() => {
@@ -372,12 +392,16 @@ const UserPage = () => {
     );
   });
 
+  /**
+   * Liste des contacts
+   */
   const contactsList = user.contacts?.map((contact, index) =>{
     return(
         <User key={index}
             id={contact.id}
             name={contact.name}    
             avatar={contact.avatar}
+            closeModal={()=>handleModals("contacts",false)}
         />
     )
   })
@@ -389,7 +413,7 @@ const UserPage = () => {
     return (
       <form onSubmit={(e) => handleForm(e)} className="params">
         <div className="flex-col">
-          <label htmlFor="name">Pseudo</label>
+          <label htmlFor="name">Pseudo :</label>
           <input
             type="text"
             id="name"
@@ -402,8 +426,9 @@ const UserPage = () => {
           />
         </div>
         <div className="flex-col">
-          <label htmlFor="description">Description</label>
+          <label htmlFor="description">Description :</label>
           <textarea
+            id="description"
             name="description"
             onChange={(e) => handleUpdateUser(e)}
             value={updateUser.description}
@@ -412,7 +437,7 @@ const UserPage = () => {
         </div>
         <div className="form-group">
           <div className="flex-col">
-            <label htmlFor="github">Github</label>
+            <label htmlFor="github">Github :</label>
             <input
               type="text"
               id="github"
@@ -423,7 +448,7 @@ const UserPage = () => {
             />
           </div>
           <div className="flex-col">
-            <label htmlFor="discord">Discord</label>
+            <label htmlFor="discord">Discord :</label>
             <input
               type="text"
               id="discord"
@@ -434,11 +459,15 @@ const UserPage = () => {
             />
           </div>
         </div>
-        <Collapse onChange={() => { getLanguages(); }} items={[ {label: "Langages", children: (
-                <Skeleton loading={loading.languages} active>
-                  <div className="languagesList-3">{allLanguagesList}</div>
-                </Skeleton>
-              )}]} />
+        <div>
+          <label htmlFor="langages">Langages :</label>
+          <Collapse id="langages" onChange={() => { getLanguages(); }} items={[ {label: "Liste des langages", children: (
+            <Skeleton loading={loading.languages} active>
+              <div className="languagesList-3">{allLanguagesList}</div>
+            </Skeleton>
+          )}]} />
+        </div>
+        <p className="delete" onClick={() => handleModals("delete", true)} aria-label="Supprimer le compte" title="Supprimer le compte">( ! ) Supprimer le compte</p>
         <button type="submit"className="btn-green center" aria-label="Valider" title="Valider" >Valider</button>
       </form>
     );
@@ -488,9 +517,13 @@ const UserPage = () => {
         footer={null}
         centered
       >
-        <div className="usersList">
+        {contactsList?.length > 0 ? (
+          <div className="usersList">
             {contactsList}
-        </div>
+          </div>
+        ):(
+          <p>L'utilisateur n'a pas encore de contacts.</p>
+        )}
       </Modal>
     );
   };
@@ -543,7 +576,11 @@ const UserPage = () => {
         footer={null}
         centered
       >
-        <div className="projectsList">{favoritesList}</div>
+        {favoritesList.length > 0 ? (
+          <div className="projectsList">{favoritesList}</div>
+        ):(
+          <p>L'utilisateur n'a pas encore de projets favoris.</p>
+        )}
       </Modal>
     );
   };
@@ -560,6 +597,19 @@ const UserPage = () => {
     )
   }
 
+  const deleteModal = () => {
+    return(
+      <Modal title="Suppression de compte" open={modals.delete} onCancel={()=>handleModals("delete",false)} footer={null} centered >
+        <h3>Voulez-vous supprimer votre compte ?</h3>
+        <p>Cette action est définitive et irréversible</p>
+        <div className='center flex'>
+        <button type='button' aria-label="Oui" title="Oui" onClick={() => navigate('/')} className='btn-green' >Oui</button>
+        <button type='button' aria-label="Non" title="Non" onClick={() => handleModals("delete",false)} className='btn-red' >Non</button>
+        </div>
+      </Modal>
+    )
+  }
+
   return (
     <Layout>
       {/* Modals */}
@@ -569,6 +619,7 @@ const UserPage = () => {
       {avatarsModal()}
       {favoritesModal()}
       {connexionModal()}
+      {deleteModal()}
 
       <div id="user">
         <div className="user-profile">
@@ -653,9 +704,9 @@ const UserPage = () => {
                   </p>
                 </div>
                 {user.description ? (
-                  <p>{user.description}</p>
+                  <p className="description">{user.description}</p>
                 ) : loggedUser?.id === user.id ? (
-                  <p onClick={() => handleModals("params", true)}>
+                  <p onClick={() => handleModals("params", true)} className="addDetails">
                     Ajouter une description
                   </p>
                 ) : (
@@ -669,7 +720,7 @@ const UserPage = () => {
                 {languagesList?.length > 0 ? (
                   <div className="languagesList-profile">{languagesList}</div>
                 ) : loggedUser?.id === user.id ? (
-                  <p onClick={() => handleModals("params", true)}>
+                  <p onClick={() => handleModals("params", true)} className="addDetails">
                     Ajouter des langages
                   </p>
                 ) : (
