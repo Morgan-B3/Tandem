@@ -43,7 +43,7 @@ const Carousel = () => {
             onClick={() => navigate(`/project/${project.id}`)}
           >
             <div className="container-carousel-img">
-              <img src={project.image} alt="" id="project-img" />
+              <img src={`${process.env.REACT_APP_API_URL}/images/projects/default/${project.image}`} alt="" id="project-img" />
             </div>
             <div className="container-carousel-body">
               <div className="titleCreator-carousel">
