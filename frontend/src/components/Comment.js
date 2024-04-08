@@ -56,7 +56,7 @@ const Comment = ({user, id, name, date, content, loggedUserID ="", token, creato
         return (
             <>
             {deleteModal()}
-            <div className='commentItem'>
+            <div className={user.id === creatorID ?'commentItem commentAdmin' : 'commentItem'}>
                 <div className='commentImg' onClick={()=>navigate(`/user/${user.id}`)}>
                     <img src={`${process.env.REACT_APP_API_URL}/images/avatars/${user.avatar.url}`}/>
                 </div>
