@@ -276,10 +276,12 @@ const ShowProject = () => {
     const comments = project.comments?.map((comment) => {
         return (
             <Comment key={comment.id}
+                id={comment.id}
                 user={comment.user}
                 date={comment.created_at}
                 content={comment.content}
                 loggedUserID={loggedUser.id}
+                token={token}
             />
         );
     });

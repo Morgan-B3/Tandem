@@ -68,25 +68,27 @@ class CommentController extends Controller
 
     /**
      * Mise à jour d'un commentaire
-     * 
-     * @param string $request Contenu du commentaire
+     *
      */
     public function update(Request $request, $id){
         $comment = Comment::find($id);
-        // Autorisation seulement à l'auteur du commentaire
+        $content = $request->all();
         if($comment->user_id == auth()->user()->id){
-            $validator = Validator::make($request,"min:3|max:1000");
+            $validator = Validator::make($content,[
+                "content"=>"min:3|max:1000"
+            ]);
             if($validator->fails()){
                 return response()->json([
                     'errors' => $validator->messages(),
                     'status' => "error"
                 ]);
             } else {
-                $comment->content = $request;
+                $comment->content = $content['content'];
                 $comment->save();
                 
                 return response()->json([
-                    'status' => 200
+                    'status' => 200,
+                    "content" => $content
                 ]);
             }
         } else {
@@ -97,13 +99,13 @@ class CommentController extends Controller
     }
 
     /**
-     * Suppression d'un commentaire
-     */
+    * Suppression d'un commentaire
+    */
     public function delete($id){
         $comment = Comment::find($id);
-        $admin_id = $comment->project()->get()->user_id;
+        $admin_id = $comment->project()->get()[0]->user_id;
         // Autorisation seulement à l'auteur du commentaire ou au créateur du projet
-        if($admin_id == auth()->user()->id || $comment->user_id === auth()->user()->id ){
+        if($admin_id == auth()->user()->id || $comment->user_id == auth()->user()->id ){
             Comment::destroy($id);
 
             return response()->json([

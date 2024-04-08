@@ -32,18 +32,48 @@
     }
     .content{
         width: 100%;
+        textarea{  
+            resize: none;
+        }
     }
     .userInfo{
         display: flex;
         gap: 2rem;
         align-items: center;
         justify-content: space-between;
-        p:first-child{
+        .userName{
             font-size: 2rem;
             font-weight: bold;
             &:hover{
                 text-decoration: underline;
                 cursor: pointer;
+            }
+        }
+        .icons{
+            margin-left: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            svg:hover{
+                cursor: pointer;
+            }
+            .edit-icon{
+                color: v.$primary-color;
+                &:hover{
+                    color: v.$color-orange;
+                }
+            }
+            .delete-icon{
+                color: v.$color-red;
+                &:hover{
+                    color: v.$color-orange;
+                }
+            }
+            .validate-icon{
+                color: v.$color-green-dark;
+                &:hover{
+                    color: v.$color-green;
+                }
             }
         }
     }
