@@ -279,6 +279,7 @@ const ShowProject = () => {
                 user={comment.user}
                 date={comment.created_at}
                 content={comment.content}
+                loggedUserID={loggedUser.id}
             />
         );
     });
