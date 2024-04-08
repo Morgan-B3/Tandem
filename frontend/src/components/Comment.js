@@ -10,7 +10,7 @@ import axios from '../api/axios.js';
 
 
 
-const Comment = ({user, id, name, date, content, loggedUserID ="", token}) => {
+const Comment = ({user, id, name, date, content, loggedUserID ="", token, creatorID}) => {
     const navigate = useNavigate();
 
     const [update, setUpdate] = useState(false)
@@ -43,7 +43,7 @@ const Comment = ({user, id, name, date, content, loggedUserID ="", token}) => {
     const deleteModal = () => {
         return(
                 <Modal title="Suppression du commentaire" open={isModalOpen} onCancel={()=>setIsModalOpen(false)} footer={null} centered >
-                <h3>Voulez-vous supprimer votre commentaire ?</h3>
+                <h3>Voulez-vous supprimer ce commentaire ?</h3>
                 <div className='center flex'>
                 <button type='button' aria-label="Oui" title="Oui" onClick={() => handleDeleteComment()} className='btn-green' >Oui</button>
                 <button type='button' aria-label="Non" title="Non" onClick={() => setIsModalOpen(false)} className='btn-red' >Non</button>
@@ -75,7 +75,11 @@ const Comment = ({user, id, name, date, content, loggedUserID ="", token}) => {
                                     <FaEdit size={20} title='Modifier' onClick={()=>setUpdate(true)} className='edit-icon'/>
                                     <BsFillTrashFill size={20} title='Supprimer' onClick={()=>setIsModalOpen(true)} className='delete-icon'/>
                                 </div>
-                                :  ""
+                                :  loggedUserID === creatorID ?
+                                <div className='icons'>
+                                    <BsFillTrashFill size={20} title='Supprimer' onClick={()=>setIsModalOpen(true)} className='delete-icon'/>
+                                </div>
+                                :""
                             }
                         </div>
                     </div>
