@@ -84,7 +84,7 @@ const Comment = ({user, id, name, date, content, loggedUserID ="", token, creato
                         </div>
                     </div>
                     {loggedUserID === user.id && update ?
-                        <textarea onChange={(e) => setUpdateComment(e.target.value)} placeholder='Votre commentaire' name='comment' id='comment'>{content}</textarea>
+                        <textarea onChange={(e) => setUpdateComment(e.target.value)} placeholder='Votre commentaire' name='comment' id='comment'>{comment}</textarea>
                         :
                         <p>{comment}</p>
                     }
