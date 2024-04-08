@@ -467,7 +467,7 @@ const UserPage = () => {
           <label htmlFor="langages">Langages :</label>
           <Collapse id="langages" onChange={() => { getLanguages(); }} items={[ {label: "Liste des langages", children: (
             <Skeleton loading={loading.languages} active>
-              <div className="languagesList-3">{allLanguagesList}</div>
+              <div className="languagesList-1">{allLanguagesList}</div>
             </Skeleton>
           )}]} />
         </div>

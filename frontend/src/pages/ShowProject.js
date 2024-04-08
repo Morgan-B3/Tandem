@@ -480,7 +480,7 @@ const ShowProject = () => {
                         {
                             label: "Liste des langages",
                             children: (
-                                <div className="updateLanguagesList">{allLanguagesList}</div>
+                                <div className="languagesList-1">{allLanguagesList}</div>
                             )
                         }]} />
                     </div>
