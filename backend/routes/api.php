@@ -25,7 +25,7 @@ use PharIo\Manifest\AuthorElement;
 
 // Projets
 Route::get('/projects/{id?}', [ProjectController::class, "index"]);
-Route::get('/projects/coeur/all', [ProjectController::class, "showCoeurs"]);
+Route::get('/projects/best-loved/all', [ProjectController::class, "showBestLoved"]);
 Route::get('/project/{id}', [ProjectController::class, "show"]);
 Route::get('/project/{id}/mini', [ProjectController::class, "showMini"]);
 

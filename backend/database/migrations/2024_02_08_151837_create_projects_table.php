@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('popularity')->nullable();
             $table->string('image')->nullable();
             $table->string('status')->nullable();
-            $table->boolean('coeur')->default(false);
+            $table->boolean('best-loved')->default(false);
 
             $table->timestamps();
         });

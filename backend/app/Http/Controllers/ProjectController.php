@@ -42,9 +42,9 @@ class ProjectController extends Controller
     /**
      * 
      */
-    function showCoeurs()
+    function showBestLoved()
     {
-        $projects = Project::all()->where("coeur", true);
+        $projects = Project::all()->where("best-loved", true);
         foreach ($projects as $project) {
             $creator = $project->creator()->first();
             $languages = $project->languages()->get();

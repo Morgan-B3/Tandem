@@ -23,7 +23,7 @@ class ProjectSeeder extends Seeder
             'collaborators_max' => 4,
             'popularity' => random_int(100,200),
             'status' => 'ongoing',
-            'coeur' => true,
+            'best-loved' => true,
             'image' => "tandem_default__memteo.avif"
         ]);
         $project1->collaborators()->attach([14, 12, 13, 15]);
@@ -38,7 +38,7 @@ class ProjectSeeder extends Seeder
             'collaborators_max' => 4,
             'popularity' => random_int(50,150),
             'status' => 'ongoing',
-            'coeur' => true,
+            'best-loved' => true,
             'image' => "tandem_default__liremersion.avif"
         ]);
         $project2->collaborators()->attach([21, 20]);
@@ -53,7 +53,7 @@ class ProjectSeeder extends Seeder
             'collaborators_max' => 4,
             'popularity' => random_int(50,150),
             'status' => 'completed',
-            'coeur' => true,
+            'best-loved' => true,
             'image' => "tandem_default__namaste.avif",
         ]);
         $project3->collaborators()->attach([16, 17, 18, 19]);
@@ -68,7 +68,7 @@ class ProjectSeeder extends Seeder
             'collaborators_max' => 2,
             'popularity' => random_int(50,100),
             'status' => 'created',
-            'coeur' => false,
+            'best-loved' => false,
             'image' => "tandem_default__taskinator.avif",
         ]);
         $project4->collaborators()->attach([22, 23]);
