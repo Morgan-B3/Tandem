@@ -1,45 +1,26 @@
-// import "../stylesheets/SearchBar.scss";
-// import { useState } from "react";
+import React, { useState } from "react";
+import "../stylesheets/SearchBar.scss";
 
-// function SearchBar({ projects, setProjects }) {
-//   const [value, setValue] = useState("");
+const SearchBar = ({ onChange }) => {
+  const [searchTerm, setSearchTerm] = useState(""); 
 
-//   const handleChange = (e) => {
-//     setValue(e.target.value);
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value); 
+    onChange(value);
+  };
 
-//     let filterList = [];
-//     projects.list.forEach((projects) => {
-//       const tmpProjects = { ...projects };
+  return (
+    <div className="search-bar">
+      <input
+        type="text"
+        id="search"
+        onChange={handleChange} 
+        placeholder="Chercher un projet..."
+        value={searchTerm} 
+      />
+    </div>
+  );
+};
 
-//       const prestations = tmpProjects.prestations.filter((item) =>
-//         item.name.toLowerCase().includes(e.target.value)
-//       );
-
-//       if (prestations.length > 0) {
-//         tmpProjects.prestations = prestations;
-//         filterList.push(tmpCategory);
-//       }
-//     });
-
-//     setProjects({
-//       ...projects,
-//       filtered: filterList,
-//     });
-//   };
-
-//   return (
-//     <div className="search-bar">
-//       <div>
-//         <input
-//           id="searchbar"
-//           type="search"
-//           placeholder="Chercher un projet..." 
-//           onChange={handleChange}
-//           value={value}
-//         />
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default SearchBar;
+export default SearchBar;

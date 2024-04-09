@@ -8,7 +8,7 @@ import Carousel from "../components/Carousel";
 //Utilisation d'axios pour faire des appels à l'API
 import axios from "../api/axios.js";
 import { Skeleton, Pagination } from "antd";
-import SearchsBar from "../components/SearchsBar.js";
+import SearchBar from "../components/SearchBar.js";
 import { useSelector } from "react-redux";
 import CountUp from "react-countup";
 import { PiPlantLight, PiTreeLight } from "react-icons/pi";
@@ -144,7 +144,7 @@ const Home = () => {
         <section className="flex search">
           <div>
 
-            <SearchsBar searchTerm={searchTerm} onChange={updateProjects} />
+            <SearchBar searchTerm={searchTerm} onChange={updateProjects} />
             <div className="filter-buttons">
               <p>Filtres :</p>
               <button aria-label="Projets pas encore démarrés" title='Projets pas encore démarrés' className={filter !== "created"? "btn-green nut" : "nut-white"} onClick={() => filterProjectsByStatus("created")}><LuNut  size={40}/></button>

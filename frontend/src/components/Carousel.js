@@ -12,7 +12,6 @@ const Carousel = () => {
 
   const getProjects = async () => {
     const res = await axios.get("/api/projects/best-loved/all");
-    console.log(res);
     setProjects(res.data.projects);
   };
 
