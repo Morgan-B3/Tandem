@@ -47,7 +47,7 @@
       box-shadow: 0px 2px 0px 1px v.$color-green-dark;
     }
     .tree{
-      background-color:  v.$primary-color;
+      background-color:  v.$color-orange-dark;
       box-shadow: 0px 2px 0px 1px rgb(198, 82, 39);
     }.user-actions{
         position: absolute;
@@ -179,7 +179,7 @@
     }
     .orange{
         .ant-progress-text{
-            color: v.$primary-color;
+            color: v.$color-orange-dark;
             font-size: 2rem;
         }
     }

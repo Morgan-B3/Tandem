@@ -36,7 +36,7 @@
       padding: 5rem;
       text-align: center;
       color: white;
-      text-shadow: 3px 3px v.$primary-color;
+      text-shadow: 3px 3px v.$color-orange-dark;
     }
     #project-img {
       width: 100%;
@@ -70,7 +70,7 @@
     
     &.slick-active button::after {
       translate: 0 2px;
-      background-color: v.$primary-color ;
+      background-color: v.$color-orange-dark ;
       box-shadow: inset 0px 3px rgba(0, 0, 0, 0.5),
     }
     

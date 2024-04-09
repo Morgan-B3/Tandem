@@ -21,7 +21,7 @@
             color: v.$color-orange;
         }
         &:focus{
-            outline: solid 1px v.$primary-color;
+            outline: solid 1px v.$color-orange-dark;
         }
     }
 }
@@ -40,8 +40,8 @@
     }
     .tree-white{
         translate: 0 2px;
-        color: v.$primary-color ;
-        box-shadow: inset 0px 0px 0px 2px v.$primary-color;
+        color: v.$color-orange-dark ;
+        box-shadow: inset 0px 0px 0px 2px v.$color-orange-dark;
         &:active{
             background-color: v.$color-orange;
         }

@@ -78,7 +78,7 @@
     }
     &:has(input:checked) .img{
         background-color: v.$color-orange;
-        box-shadow: 0 2px v.$primary-color;
+        box-shadow: 0 2px v.$color-orange-dark;
         img{
             opacity: 1;
             filter: drop-shadow(0px 0px 2px #0000004f);

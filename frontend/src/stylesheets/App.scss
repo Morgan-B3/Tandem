@@ -64,19 +64,19 @@ h1{
 
 .title-orange{
   color: white;
-  text-shadow:  0.5px 0px v.$primary-color,
-  1px 0.5px v.$primary-color,
-  1.5px 1px v.$primary-color,
-  2px 1.5px v.$primary-color,
-  2.5px 2px v.$primary-color,
-  3px 2.5px v.$primary-color,
-  0px 0.5px v.$primary-color,
-  0.5px 1px v.$primary-color,
-  1px 1.5px v.$primary-color,
-  1.5px 2px v.$primary-color,
-  2px 2.5px v.$primary-color,
-  2.5px 3px v.$primary-color,
-  3px 3px v.$primary-color,
+  text-shadow:  0.5px 0px v.$color-orange-dark,
+  1px 0.5px v.$color-orange-dark,
+  1.5px 1px v.$color-orange-dark,
+  2px 1.5px v.$color-orange-dark,
+  2.5px 2px v.$color-orange-dark,
+  3px 2.5px v.$color-orange-dark,
+  0px 0.5px v.$color-orange-dark,
+  0.5px 1px v.$color-orange-dark,
+  1px 1.5px v.$color-orange-dark,
+  1.5px 2px v.$color-orange-dark,
+  2px 2.5px v.$color-orange-dark,
+  2.5px 3px v.$color-orange-dark,
+  3px 3px v.$color-orange-dark,
 }
 
 .center{
@@ -103,17 +103,17 @@ button{
 
 
 .btn-orange {
-  @include m.button(white, v.$color-orange, v.$orange-light, v.$primary-color, 5rem, 1rem);
+  @include m.button(white, v.$color-orange, v.$color-orange-light, v.$color-orange-dark, 5rem, 1rem);
 }
 
 .btn-orange-big {
-  @include m.button(white, v.$color-orange, v.$orange-light, v.$primary-color, 5rem, 3rem);
+  @include m.button(white, v.$color-orange, v.$color-orange-light, v.$color-orange-dark, 5rem, 3rem);
   font-family: "Lobster Two", sans-serif;
   font-size: 2.5rem;
 }
 
 .btn-orange-big-forbidden {
-  @include m.button(white, v.$color-orange, v.$orange-light, v.$primary-color, 5rem, 3rem);
+  @include m.button(white, v.$color-orange, v.$color-orange-light, v.$color-orange-dark, 5rem, 3rem);
   font-family: "Lobster Two", sans-serif;
   font-size: 2.5rem;
   &:hover{

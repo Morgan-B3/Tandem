@@ -6,9 +6,8 @@
 }
 
 header {
-  background-color: v.$primary-color;
+  background-color: v.$color-orange-dark;
   text-align: center;
-  background-color: #f47142;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
@@ -36,12 +35,13 @@ header {
 }
 
 footer {
-  background-color: v.$primary-color;
+  background-color: v.$color-orange-dark;
   text-align: center;
 }
 
 #imgproject {
   width: 10rem;
+  display: flex;
   img{
     width: 100%;
   }
@@ -59,8 +59,8 @@ footer {
   width: 100%;
   min-height: fit-content;
   padding: 1rem;
-  background: #f47143;
-  color: v.$text-color;
+  background: v.$color-orange-dark;
+  color: v.$color-white;
 
   .all-item {
     display: flex;
@@ -98,13 +98,13 @@ ul {
     right: -100vw;
     height: 100vh;
     padding: 2rem;
-    background-color: v.$color-orange;
+    background-color: v.$color-orange-dark;
     visibility: hidden;
   }
   li {
-    width: 100%;
+    width: fit-content;
     p:hover {
-      background-color: v.$hover-color;
+      border-bottom: solid 2px v.$color-white;
       cursor: pointer;
     }
   }
@@ -123,7 +123,6 @@ ul {
     margin: 2rem auto;
     width: 10vw;
     height: 1px;
-    background: v.$text-color;
   }
   .item:last-child::after {
     display: none;
@@ -152,7 +151,7 @@ ul {
     height: 3px;
     position: relative;
     border-radius: 3px;
-    background-color: v.$text-color;
+    background-color: v.$color-white;
     transition: all v.$transition-duration v.$transition-ease;
   }
   .tiret::before,
