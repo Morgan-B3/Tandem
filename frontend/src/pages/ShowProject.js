@@ -523,13 +523,15 @@ const ShowProject = () => {
      * Modale de connexion
      */
     const connexionModal = () => {
-        <Modal title="Connexion requise" open={modals.connexion} onCancel={() => handleModals("connexion", false)} footer={null} centered >
-            <h3>Veuillez vous connecter pour réaliser cette action</h3>
-            <div className='center flex'>
-                <button type='button' onClick={() => navigate('/login')} className='btn-green' >Me connecter</button>
-                <button type='button' onClick={() => handleModals("connexion", false)} className='btn-red' >Non merci</button>
-            </div>
-        </Modal>
+        return(
+            <Modal title="Connexion requise" open={modals.connexion} onCancel={() => handleModals("connexion", false)} footer={null} centered >
+                <h3>Veuillez vous connecter pour réaliser cette action</h3>
+                <div className='center flex'>
+                    <button type='button' onClick={() => navigate('/login')} className='btn-green' >Me connecter</button>
+                    <button type='button' onClick={() => handleModals("connexion", false)} className='btn-red' >Non merci</button>
+                </div>
+            </Modal>
+        )
     }
 
     /**
