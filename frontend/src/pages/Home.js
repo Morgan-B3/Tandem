@@ -91,9 +91,9 @@ const Home = () => {
   }, []);
 
   // Affichage des stats en dessous header
-  const projectsCount = projects.length;
-  const usersCount = users.length;
-  const projectsCompleted = projects.filter(
+  const projectsCount = projects?.length;
+  const usersCount = users?.length;
+  const projectsCompleted = projects?.filter(
     (project) => project.status === "completed"
   ).length;
 
@@ -115,7 +115,7 @@ const Home = () => {
 
   // Filtrage des projets en fonction du terme de recherche et du filtre de statut ( combinaison des deux filtres)
   useEffect(() => { // Exécution du UseEffect après chaque rendu où les dépendances "projects", "searchTerm" et "filter" ont été changés
-    const filtered = projects.filter(project =>
+    const filtered = projects?.filter(project =>
       project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.description.toLowerCase().includes(searchTerm.toLowerCase())
     ).filter(project =>
