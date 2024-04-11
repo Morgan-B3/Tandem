@@ -35,15 +35,31 @@ const Home = () => {
 
   // Récupération des projets depuis l'API projects
   const getProjects = async () => {
-    const res = await axios.get("/api/projects");
-    setProjects(res.data.projects);
-    setLoading(false);
+    try{
+      const res = await axios.get("/api/projects");
+      if(res.data.status === 200){
+        setProjects(res.data.projects);
+        setLoading(false);
+      }
+    } catch {
+      return{
+        status: 500,
+        message:"Connexion échouée"
+      }
+    }
   };
 
   // Idem pour les utilisateurs
   const getUsers = async () => {
-    const resUsers = await axios.get("/api/users");
-    setUsers(resUsers.data.users);
+    try{
+      const resUsers = await axios.get("/api/users");
+      setUsers(resUsers.data.users);
+    } catch {
+      return{
+        status: 500,
+        message:"Connexion échouée"
+      }
+    }
   };
 
   // Création d'une liste de projets à partir des projets récupérés au dessus

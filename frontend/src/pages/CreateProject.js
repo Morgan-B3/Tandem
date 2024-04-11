@@ -59,11 +59,19 @@ const CreateProject = () => {
 
     // Appel API pour la liste des langages
     const getLanguages = async () => {
-        const res = await axios.get("/api/languages");
-        // Remplissage du tableau langages
-        setLanguages(res.data.languages);
-        // Remplissage du tableau checked en suivant le nombre de langages
-        setCheckedState(new Array(res.data.languages.length).fill(false))
+        try{
+
+            const res = await axios.get("/api/languages");
+            // Remplissage du tableau langages
+            setLanguages(res.data.languages);
+            // Remplissage du tableau checked en suivant le nombre de langages
+            setCheckedState(new Array(res.data.languages.length).fill(false))
+        } catch {
+            return{
+                status: 500,
+                message:"Connexion échouée"
+            }
+        }
     }
 
     const getMessage =() =>{
