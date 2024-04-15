@@ -147,7 +147,7 @@ const Home = () => {
             <SearchBar searchTerm={searchTerm} onChange={updateProjects} />
             <div className="filter-buttons">
               <p>Filtres :</p>
-              <button aria-label="Projets pas encore démarrés" title='Projets pas encore démarrés' className={filter !== "created"? "btn-green nut" : "nut-white"} onClick={() => filterProjectsByStatus("created")}><LuNut  size={40}/></button>
+              <button aria-label="Projets pas encore démarrés" title='Projets pas encore démarrés' className={filter !== "created"? "btn-green-dark nut" : "nut-white"} onClick={() => filterProjectsByStatus("created")}><LuNut  size={40}/></button>
               <button aria-label='Projets en cours' title='Projets en cours' className={filter !== "ongoing"? "btn-green nut" : "nut-white"} onClick={() => filterProjectsByStatus("ongoing")}><PiPlantLight  size={40}/></button>
               <button  aria-label='Projets terminés' title='Projets terminés' className={filter !== "completed"? "btn-orange nut" : "tree-white"} onClick={() => filterProjectsByStatus("completed")}><PiTreeLight  size={40}/></button>
             </div>

@@ -40,7 +40,7 @@
     }
     .nut{
       background-color:  v.$color-green-dark;
-      box-shadow: 0px 2px 0px 1px #1e9c41;
+      box-shadow: 0px 2px 0px 1px v.$color-green-darker;
     }
     .plant{
       background-color:  v.$color-green;
@@ -48,7 +48,7 @@
     }
     .tree{
       background-color:  v.$color-orange-dark;
-      box-shadow: 0px 2px 0px 1px rgb(198, 82, 39);
+      box-shadow: 0px 2px 0px 1px v.$color-orange-darker;
     }.user-actions{
         position: absolute;
         display: flex;
@@ -73,11 +73,11 @@
           color: white;
         }
         .favorites:hover {
-          color: #FFC702;
+          color: v.$color-yellow;
         }
         .full{
           &.favorites{
-            color: #FFC702;
+            color: v.$color-yellow;
           }
         }
       }
@@ -92,7 +92,7 @@
           transition: all 100ms;
         }
         &.full .action-icon{
-          color: #FF0000;
+          color: v.$color-red;
         }
         &:hover .action-icon{
           transform: scale(1.1);
@@ -124,7 +124,7 @@
           p, .user-icon{
             width: fit-content;
             text-decoration: underline;
-            color: #8C8C8C;
+            color: v.$color-grey-dark;
             transition: all 200ms;
           }
           &:hover p, &:hover .user-icon{

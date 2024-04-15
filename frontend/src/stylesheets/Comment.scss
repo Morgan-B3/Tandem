@@ -10,12 +10,12 @@
     width: 95%;
     margin: 2rem auto ;
     transition: all 200ms;
-    background-color: #F0F0F0;
+    background-color: v.$color-grey;
     &.commentAdmin{
-        background-color: v.$color-gpastel;
+        background-color: v.$color-green-light;
     }
     &:hover{
-        box-shadow: 0 0px 0px 2px v.$color-gpastel;
+        box-shadow: 0 0px 0px 2px v.$color-green-light;
     }
     .commentImg{
         width: 7rem;

@@ -1,7 +1,7 @@
 @use "variables" as v;
 
 .caroussel {
-  background-color: v.$color-gpastel;
+  background-color: v.$color-green-light;
   padding: 2rem;
   margin-bottom: 1rem;
   .contenair-carousel {
@@ -77,7 +77,7 @@
     // button:hover::after{
     //   background-color: v.$color-green ;
     //   box-shadow: 0px 2px v.$color-green,
-    //   inset 0px 3px v.$color-gpastel;
+    //   inset 0px 3px v.$color-green-light;
     // }
     button:active::after{
       translate: 0 2px;
