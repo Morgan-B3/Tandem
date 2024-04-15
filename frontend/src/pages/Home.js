@@ -35,15 +35,31 @@ const Home = () => {
 
   // Récupération des projets depuis l'API projects
   const getProjects = async () => {
-    const res = await axios.get("/api/projects");
-    setProjects(res.data.projects);
-    setLoading(false);
+    try{
+      const res = await axios.get("/api/projects");
+      if(res.data.status === 200){
+        setProjects(res.data.projects);
+        setLoading(false);
+      }
+    } catch {
+      return{
+        status: 500,
+        message:"Connexion échouée"
+      }
+    }
   };
 
   // Idem pour les utilisateurs
   const getUsers = async () => {
-    const resUsers = await axios.get("/api/users");
-    setUsers(resUsers.data.users);
+    try{
+      const resUsers = await axios.get("/api/users");
+      setUsers(resUsers.data.users);
+    } catch {
+      return{
+        status: 500,
+        message:"Connexion échouée"
+      }
+    }
   };
 
   // Création d'une liste de projets à partir des projets récupérés au dessus
@@ -75,9 +91,9 @@ const Home = () => {
   }, []);
 
   // Affichage des stats en dessous header
-  const projectsCount = projects.length;
-  const usersCount = users.length;
-  const projectsCompleted = projects.filter(
+  const projectsCount = projects?.length;
+  const usersCount = users?.length;
+  const projectsCompleted = projects?.filter(
     (project) => project.status === "completed"
   ).length;
 
@@ -99,7 +115,7 @@ const Home = () => {
 
   // Filtrage des projets en fonction du terme de recherche et du filtre de statut ( combinaison des deux filtres)
   useEffect(() => { // Exécution du UseEffect après chaque rendu où les dépendances "projects", "searchTerm" et "filter" ont été changés
-    const filtered = projects.filter(project =>
+    const filtered = projects?.filter(project =>
       project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.description.toLowerCase().includes(searchTerm.toLowerCase())
     ).filter(project =>

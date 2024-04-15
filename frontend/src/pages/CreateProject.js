@@ -59,11 +59,19 @@ const CreateProject = () => {
 
     // Appel API pour la liste des langages
     const getLanguages = async () => {
-        const res = await axios.get("/api/languages");
-        // Remplissage du tableau langages
-        setLanguages(res.data.languages);
-        // Remplissage du tableau checked en suivant le nombre de langages
-        setCheckedState(new Array(res.data.languages.length).fill(false))
+        try{
+
+            const res = await axios.get("/api/languages");
+            // Remplissage du tableau langages
+            setLanguages(res.data.languages);
+            // Remplissage du tableau checked en suivant le nombre de langages
+            setCheckedState(new Array(res.data.languages.length).fill(false))
+        } catch {
+            return{
+                status: 500,
+                message:"Connexion échouée"
+            }
+        }
     }
 
     const getMessage =() =>{
@@ -116,7 +124,7 @@ const CreateProject = () => {
     };
 
     // Création de la liste des langages
-    const languagesList = languages.map((language, index) => {
+    const languagesList = languages?.map((language, index) => {
         return (
             <Language key={language.id}
                 name={language.name}
@@ -129,7 +137,7 @@ const CreateProject = () => {
     });
 
     // Création de la liste des langages selectionnés
-    const selectedLanguages = languages.filter((language, index)=>project.languages.includes(language.id)).map((language, index) => {
+    const selectedLanguages = languages?.filter((language, index)=>project.languages.includes(language.id)).map((language, index) => {
         return (
             <Language key={language.id}
             name={language.name}
@@ -145,29 +153,35 @@ const CreateProject = () => {
     const saveProject = async (e) => {
         e.preventDefault();
 
-        // Appel à l'API
-        const res = await axios.post(`/api/project/store`, project, { headers: { "Content-Type": "multipart/form-data" , "Authorization":`Bearer ${token}`} });
-        
-        if (res.data.status === 200) {
-            swal({
-                title: "Bravo !",
-                text: res.data.message,
-                icon: "success",
-                button: "OK"
-            })
-            setProject({
-                title: '',
-                collaborators_max: '',
-                description: '',
-                languages: [],
-            })
-            setErrors([]);
-            navigate('/', project);
-        } else {
-            message.error("Champ(s) invalide(s)")
-            setErrors(res.data.errors || []);
+        try{
+            // Appel à l'API
+            const res = await axios.post(`/api/project/store`, project, { headers: { "Content-Type": "multipart/form-data" , "Authorization":`Bearer ${token}`} });
+            
+            if (res.data.status === 200) {
+                swal({
+                    title: "Bravo !",
+                    text: res.data.message,
+                    icon: "success",
+                    button: "OK"
+                })
+                setProject({
+                    title: '',
+                    collaborators_max: '',
+                    description: '',
+                    languages: [],
+                })
+                setErrors([]);
+                navigate('/', project);
+            } else {
+                message.error("Champ(s) invalide(s)")
+                setErrors(res.data.errors || []);
+            }
+        } catch {
+            return{
+                status: 500,
+                message:"Connexion échouée"
+            }
         }
-  
     };
 
     let participants = []
