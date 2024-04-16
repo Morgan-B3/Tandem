@@ -92,13 +92,17 @@ button{
 }
 
 .btn-green-big {
-  @include m.button(white, v.$color-green, v.$color-gpastel, v.$color-green-dark, 5rem, 3rem);
+  @include m.button(white, v.$color-green, v.$color-green-light, v.$color-green-dark, 5rem, 3rem);
   font-family: "Lobster Two", sans-serif;
   font-size: 2.5rem
 }
 
 .btn-green {
-  @include m.button(white, v.$color-green, v.$color-gpastel, v.$color-green-dark, 5rem, 1rem);
+  @include m.button(white, v.$color-green, v.$color-green-light, v.$color-green-dark, 5rem, 1rem);
+}
+
+.btn-green-dark {
+  @include m.button(white, v.$color-green-dark, v.$color-green, v.$color-green-darker, 5rem, 1rem);
 }
 
 

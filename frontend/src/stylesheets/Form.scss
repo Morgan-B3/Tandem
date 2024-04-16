@@ -15,7 +15,7 @@
 input:not([type=file]), textarea, select{
     padding: 0.5rem;
     border-radius: 1rem;
-    border: solid 1px v.$color-gpastel;
+    border: solid 1px v.$color-green-light;
     &:focus{
         outline: solid 1px v.$color-green-dark;
     }
