@@ -651,12 +651,12 @@ const UserPage = () => {
             ""
           )}
           <div className="profile">
-            <div className={loggedUser?.id === user.id ? "avatar img-hover" : "avatar"}  onClick={() => handleAvatars()} aria-label={loggedUser?.id === user.id ? "Changer d'avatar" : "Avatar"} title={loggedUser?.id === user.id ? "Changer d'avatar" : "Avatar"} >
+            <div className={loggedUser?.id === user.id ? "avatar img-hover" : "avatar"}  onClick={() => handleAvatars()} title={loggedUser?.id === user.id ? "Changer d'avatar" : ""} >
               {loading.user ? (
                 <Skeleton.Avatar active size={100} />
               ) : (
                 <Fragment>
-                  <img src={`${process.env.REACT_APP_API_URL}/images/avatars/${user.avatar}`} alt="" />
+                  <img src={`${process.env.REACT_APP_API_URL}/images/avatars/${user.avatar}`} alt={loggedUser?.id === user.id ? "Changer d'avatar" : ""} />
                   {loggedUser.id === user.id ? (
                     <p className="hidden">Changer d'avatar</p>
                   ) : (
