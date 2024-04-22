@@ -211,9 +211,9 @@ const ShowProject = () => {
      * Ajoute un commentaire au projet
      */
     const postNewComment = async (e) => {
+        e.preventDefault();
         if(loggedUser){
 
-            e.preventDefault();
             const res = await axios.post(`/api/comment/${id}/store`, { comment: postComment.comment }, { headers: { "Authorization": `Bearer ${token}` } });
             if (res.data.status === 200) {
                 setPostComment({ comment: "" })

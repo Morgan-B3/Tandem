@@ -54,6 +54,12 @@ const Register = () => {
         navigate('/login');
     }
 
+    const handleErrors = (errors) => {
+        return errors?.map(error => {
+            return <p className='error'>{error}</p>
+        });
+    }
+
     return (
         <Fragment>
             <form onSubmit={(e)=>handleLogin(e)}>
@@ -62,19 +68,19 @@ const Register = () => {
                     <div className='flex-col'>
                         <label htmlFor='name'>Choisissez un pseudo :</label>
                         <input type='text' name='name' value={newUser.name} placeholder='Pseudo' onChange={(e)=> handleChange(e)} autoFocus required/>
-                        <b>{errors.name}</b>
+                        {handleErrors(errors.name)}
                     </div>
                     <div className='flex-col'>
                         <label htmlFor='email'>Email :</label>
                         <input type='email' name='email' value={newUser.email} placeholder='tandem@email.fr' onChange={(e)=> handleChange(e)} required/>
-                        <b>{errors.email}</b>
+                        {handleErrors(errors.email)}
                     </div>
                 </div>
                 <div className='form-group'>
                     <div className='flex-col'>
                         <label htmlFor='password'>Mot de passe :</label>
                         <input type='password' name='password' value={newUser.password} placeholder='Mot de passe' onChange={(e)=> handleChange(e)} required/>
-                        <b>{errors.password}</b>
+                        {handleErrors(errors.password)}
                     </div>
                     <div className='flex-col'>
                         <label htmlFor='password_confirmation'>Confirmer le mot de passe :</label>
@@ -82,7 +88,7 @@ const Register = () => {
                     </div>
                 </div>
                 <button type='submit' className='btn-green-big' aria-label='Valider' title='Valider'>Valider</button>
-                <div className='flex'>
+                <div className='connect'>
                     <p>Déjà inscrit ?</p>
                     <button type='button' aria-label='Se connecter' title='Se connecter' className='btn-green' onClick={(e) => handleNavigate(e)}>Se connecter</button>
                 </div>

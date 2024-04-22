@@ -9,7 +9,20 @@
     flex: 1;
     display: flex;
     align-items: center;
-    
+    .error{
+        border: solid 2px v.$color-red;
+        background-color: v.$color-orange;
+        color: v.$color-red;
+        text-align: center;
+        border-radius: 1rem;
+        margin: 0.5rem 0;
+    }
+    .connect{
+        text-align: center;
+        button{
+            margin: auto;
+        }
+    }
 }
 
 input:not([type=file]), textarea, select{
@@ -86,6 +99,10 @@ textarea{
         div{
             flex: 1;
         }
+    }
+    .connect{
+        display: flex;
+        gap: 1rem;
     }
 
 }
