@@ -193,7 +193,6 @@ const Home = () => {
                 ) : (
                   <>
                     {projectsList}
-                    <Pagination defaultCurrent={1} total={projectsList.length/10} pageSize={10}/>
                   </>
                 )
               ) : (
