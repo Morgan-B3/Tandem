@@ -191,6 +191,12 @@ const CreateProject = () => {
         )
     }
 
+    const handleErrors = (errors) => {
+        return errors?.map(error => {
+            return <p className='error'>{error}</p>
+        });
+    }
+
     return (
         <Fragment>
             <form onSubmit={(e) => saveProject(e)}>
@@ -200,7 +206,7 @@ const CreateProject = () => {
                     <div className='flex-col'>
                         <label htmlFor='title'>Nom du projet :</label>
                         <input type='text' id='title' name='title' placeholder='Mon super projet' value={project.title} onChange={(e)=>handleInput(e)} autoFocus required/>
-                        <strong>{errors.title}</strong>
+                        {handleErrors(errors.title)}
                     </div>
 
                     <div className='flex' >
@@ -209,16 +215,14 @@ const CreateProject = () => {
                             <option value="">Choisir</option>
                             {participants}
                         </select>
-                        {/* <input type="number" id="collaborators_max" name="collaborators_max" min="1" max="20" value={project.collaborators_max} onChange={(e) => handleInput(e)} required /> */}
-                        <strong>{errors.collaborators_max}</strong>
+                        {handleErrors(errors.collaborators_max)}
                     </div>
                 </div>
 
                 <div className='flex-col'>
                     <label htmlFor="description">Description du projet :</label>
-                    <textarea type="text" id="description" name="description" minLength="10" maxLength="1000" placeholder='Une jolie description' size="10"
-                        value={project.description} onChange={(e) => handleInput(e)} required />
-                    <strong>{errors.description}</strong>
+                    <textarea type="text" id="description" name="description" minLength="10" maxLength="1000" placeholder='Une jolie description' size="10" value={project.description} onChange={(e) => handleInput(e)} required />
+                    {handleErrors(errors.description)}
                 </div>
 
 
@@ -226,12 +230,12 @@ const CreateProject = () => {
                     <div>
                         <label htmlFor="image">Image d'illustration :</label>
                         <input type="file" id="image" name="image" accept="image/png, image/jpeg" onChange={(e) => handleImage(e)}/>
-                        <strong>{errors.image}</strong>
+                        {handleErrors(errors.image)}
                     </div>
                     <div className='flex'>
                         <label htmlFor="languages">Langages envisagés:</label>
                         <button type='button' className='btn-green' name='languages' onClick={()=>showModal1()}>Selectionner</button>
-                        <strong>{errors.languages}</strong>
+                        {handleErrors(errors.languages)}
                         
                         <Modal title="Choisir des langages" open={isModal1Open} width="fit-content" onCancel={()=> handleCancel1()} footer={null} centered>
                             <div className='languagesList-1'>
@@ -239,12 +243,8 @@ const CreateProject = () => {
                             </div>
                             <button className='btn-green center' onClick={()=>handleCancel1()}>Valider</button>
                         </Modal>
-
-                      
-
                     </div>
 
-                 
                 </div>
                 <div className='languagesList-2'>
                     {selectedLanguages}
